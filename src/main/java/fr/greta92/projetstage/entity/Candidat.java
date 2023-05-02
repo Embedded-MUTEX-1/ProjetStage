@@ -16,5 +16,5 @@ import java.util.List;
 @DiscriminatorValue("candidat")
 public class Candidat extends Utilisateur {
     @OneToMany(mappedBy = "candidat")
-    List<PassageTest> passageTests;
+    private List<PassageTest> passageTests;
 }

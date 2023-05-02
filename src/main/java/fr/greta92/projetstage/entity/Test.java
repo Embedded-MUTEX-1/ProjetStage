@@ -20,7 +20,8 @@ public class Test {
 
     @Id
     private Long id;
+    private String nom;
     @OneToMany
     @JoinColumn(name = "id_test")
-    List<Question> questions;
+    private List<Question> questions;
 }
