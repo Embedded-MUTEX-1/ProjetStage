@@ -1,0 +1,161 @@
+html, body, main{
+    height: 100%;
+}
+nav {
+    background-color: #B2C2DA;
+}
+/* Header */ 
+header nav ul {
+    margin: auto;
+}
+header nav ul .nav-item {
+    border-radius: 20px;
+}
+.test-todo {
+    background-color: #AAD9A7;
+}
+.test-done {
+    background-color: #87B3F5;
+}
+.compte {
+    background-color: #AC665F;
+}
+/* footer */
+footer nav ul {
+    width: 100%;
+}
+.aide {
+    position: fixed;
+    right: 10px;
+    border-radius: 20px;
+    background-color: #59616d;
+    width: 100px;
+} 
+/* main */
+main .container {
+    height: auto;
+    width: auto;
+    left: 15%;
+    right: 15%;
+    top: 70px;
+    bottom: 70px;
+    position: fixed;
+    border-radius: 20px;
+    background-color: #E5E5E5;
+    overflow-y: scroll;
+}
+.nom {
+    position: fixed;
+    left: 18%;
+    border-radius: 20px;
+    background-color: #B2C2DA;
+    width: 100px;
+    text-align: center;
+}
+.debut {
+    position: fixed;
+    left: 35%;
+    border-radius: 20px;
+    background-color: #B2C2DA;
+    width: 100px;
+    text-align: center;
+}
+.desc {
+    position: fixed;
+    right: 18%;
+    border-radius: 20px;
+    background-color: #B2C2DA;
+    width: 100px;
+    text-align: center;
+}
+.fin {
+    position: fixed;
+    right: 35%;
+    border-radius: 20px;
+    background-color: #B2C2DA;
+    width: 100px;
+    text-align: center;
+}
+.list {
+    margin-top: 40px;
+}
+.legende {
+    display: flex;
+}
+.item {
+    background-color: #B2C2DA;
+    border-radius: 10px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.item .row {
+    justify-content: center;
+    align-items: center;
+}
+.t-nom {
+    /* position: fixed; */
+    /* left: 18%; */
+    background-color: #B2C2DA;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-right: 2px solid black;
+}
+.t-debut {
+    /* position: fixed; */
+    /* left: 35%; */
+    background-color: #B2C2DA;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-right: 2px solid black;
+}
+.t-desc {
+    /* position: fixed; */
+    /* right: 18%; */
+    background-color: #B2C2DA;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;   
+}
+.t-fin {
+    /* position: fixed; */
+    /* right: 35%; */
+    background-color: #B2C2DA;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    border-right: 2px solid black;
+}
+.item p,a
+{
+    font-size: small;
+}
+.item span {
+    display: none;
+}
+@media (max-width: 767px) { 
+    .list {
+        margin-top: 10px;
+    }
+    .legende {
+        display: none;
+    }
+    .item {
+        height: auto;
+    }
+    .t-nom {
+        border-bottom: 2px solid black;
+    }
+    .t-debut {
+        border-right: 0px solid black;
+        border-bottom: 2px solid black;
+    }
+    .item span {
+        display: contents;
+        color: #AC665F;
+        font-weight: bold;
+    }
+}

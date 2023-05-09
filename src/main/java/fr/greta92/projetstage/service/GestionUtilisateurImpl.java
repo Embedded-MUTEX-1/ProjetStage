@@ -3,10 +3,14 @@ package fr.greta92.projetstage.service;
 import fr.greta92.projetstage.entity.Candidat;
 import fr.greta92.projetstage.entity.EmailDetails;
 import fr.greta92.projetstage.entity.Utilisateur;
+import fr.greta92.projetstage.exception.UtilisateurDejaExistant;
+import fr.greta92.projetstage.exception.UtilisateurNonExistant;
 import fr.greta92.projetstage.repository.CandidatRepo;
 import fr.greta92.projetstage.repository.UtilisateurRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class GestionUtilisateurImpl implements GestionUtilisateur {
@@ -19,23 +23,37 @@ public class GestionUtilisateurImpl implements GestionUtilisateur {
     EmailService emailService;
 
     @Override
+    public Boolean existByEmail(String email) {
+        return utilisateurRepo.existsByEmail(email);
+    }
+
+    @Override
     public Utilisateur getUtilisateur(String email) {
         return utilisateurRepo.findUtilisateurByEmail(email).orElseThrow();
     }
 
     @Override
-    public void ajouterUtilisateur(Utilisateur utilisateur) {
+    public void ajouterUtilisateur(Utilisateur utilisateur) throws UtilisateurDejaExistant {
+        if(existByEmail(utilisateur.getEmail()))
+        {
+            throw new UtilisateurDejaExistant();
+        }
         utilisateurRepo.save(utilisateur);
     }
 
     @Override
-    public void modifierUtilisateur(Utilisateur utilisateur) {
-        utilisateurRepo.save(utilisateur);
+    public void modifierUtilisateur(Utilisateur utilisateur) throws UtilisateurNonExistant {
+        if(existByEmail(utilisateur.getEmail())) {
+            utilisateurRepo.save(utilisateur);
+        }
+        else {
+            throw new UtilisateurNonExistant();
+        }
     }
 
     @Override
     public void supprimerUtilisateur(Utilisateur utilisateur) {
-        utilisateurRepo.delete(utilisateur);
+        //utilisateurRepo.delete(utilisateur);
     }
 
     @Override
@@ -44,18 +62,32 @@ public class GestionUtilisateurImpl implements GestionUtilisateur {
     }
 
     @Override
-    public void ajouterCandidat(Candidat candidat) {
+    public List<Candidat> getAllCandidat() {
+        return candidatRepo.findAll();
+    }
+
+    @Override
+    public void ajouterCandidat(Candidat candidat) throws UtilisateurDejaExistant {
+        if(existByEmail(candidat.getEmail()))
+        {
+            throw new UtilisateurDejaExistant();
+        }
         candidatRepo.save(candidat);
     }
 
     @Override
-    public void modifierCandidat(Candidat candidat) {
-        candidatRepo.save(candidat);
+    public void modifierCandidat(Candidat candidat) throws UtilisateurNonExistant {
+        if(existByEmail(candidat.getEmail())) {
+            candidatRepo.save(candidat);
+        }
+        else {
+            throw new UtilisateurNonExistant();
+        }
     }
 
     @Override
     public void supprimerCandidat(Candidat candidat) {
-        candidatRepo.delete(candidat);
+        //candidatRepo.delete(candidat);
     }
 
     @Override

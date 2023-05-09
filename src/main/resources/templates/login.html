@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,5 +9,39 @@
     <title>Connexion</title>
 </head>
 <body>
+<main>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="logo" class="col-12 col-sm-6">
+                <div id="logo-container">
+                    <img src="/img/logo.png" alt="Logo test Crit" width="30%">
+                </div>
+            </div>
+            <div id="form" class="container col-12 col-sm-6">
+                <div id="border">
+                    <div th:if="${param.error}">
+                        Invalid username and password.
+                    </div>
+                    <div th:if="${param.logout}">
+                        You have been logged out.
+                    </div>
+                    <form th:action="@{/Connexion}" method="post" class="mb-3">
+                        <h2>Se connecter</h2>
+                        <div class="mb-3">
+                            <input name="username" class="form-control border-0" placeholder="Email" />
+                        </div>
+                        <div class="mb-3">
+                            <input name="password" class="form-control border-0" placeholder="Mot de passe" />
+                        </div>
+                        <div>
+                            <button type="submit" class="btn">Connexion</button>
+                            <button class="btn2"><img src="/img/bouton_aide.png" alt="Bouton aide"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

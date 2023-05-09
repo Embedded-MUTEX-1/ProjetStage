@@ -1,0 +1,44 @@
+html, body, main, .container-fluid, .container-fluid > .row, #logo, #form {
+    height: 100%;
+}
+#logo, #form {
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#logo {
+    background-color: #b1c1d9;
+}
+form h2 {
+    text-align: center;
+}
+form div .form-control {
+    border-radius: 30px;
+    background-color: #B2C2DA;
+    color: black;
+
+}
+form div .btn2 img {
+    height: 40px;
+}
+form div .btn {
+    background-color: #87B3F5;
+    border-radius: 30px;
+}
+form div .btn2 {
+    background-color: transparent;
+    border: 0px;
+    margin-left: 28%;
+    padding: 0px;
+}
+#logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@media (max-width: 576px) { 
+    .container-fluid .row #logo {
+        display: none;
+    }
+}

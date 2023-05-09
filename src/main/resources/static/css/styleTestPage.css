@@ -1,0 +1,61 @@
+html, body, main{
+    height: 100%;
+}
+nav {
+    background-color: #B2C2DA;
+}
+/* Header */ 
+header nav ul {
+    margin: auto;
+}
+header nav ul .nav-item {
+    border-radius: 20px;
+}
+.test-name {
+    background-color: #87B3F5;
+}
+.test-time {
+    background-color: #87B3F5;
+    height: 40px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+.test-time p
+{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.test-cancel {
+    background-color: #87B3F5;
+}
+.compte {
+    background-color: #AC665F;
+}
+/* footer */
+footer nav ul {
+    width: 100%;
+}
+.aide {
+    position: fixed;
+    right: 10px;
+    border-radius: 20px;
+    background-color: #59616d;
+    width: 100px;
+} 
+/* main */
+main .container {
+    height: auto;
+    width: auto;
+    left: 10%;
+    right: 10%;
+    top: 70px;
+    bottom: 70px;
+    position: fixed;
+    overflow-y: scroll;
+}
+@media (max-width: 767px) { 
+    
+}
