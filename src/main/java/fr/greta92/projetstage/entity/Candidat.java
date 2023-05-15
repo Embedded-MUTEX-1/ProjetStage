@@ -1,5 +1,6 @@
 package fr.greta92.projetstage.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("candidat")
 public class Candidat extends Utilisateur {
+    @JsonIgnore
     @OneToMany(mappedBy = "candidat")
     private List<PassageTest> passageTests;
 }

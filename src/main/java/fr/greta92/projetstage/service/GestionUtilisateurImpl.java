@@ -1,16 +1,18 @@
 package fr.greta92.projetstage.service;
 
-import fr.greta92.projetstage.entity.Candidat;
-import fr.greta92.projetstage.entity.EmailDetails;
-import fr.greta92.projetstage.entity.Utilisateur;
-import fr.greta92.projetstage.exception.UtilisateurDejaExistant;
-import fr.greta92.projetstage.exception.UtilisateurNonExistant;
+import fr.greta92.projetstage.entity.*;
+import fr.greta92.projetstage.exception.BadPasswordException;
+import fr.greta92.projetstage.exception.UtilisateurDejaExistantException;
+import fr.greta92.projetstage.exception.UtilisateurNonExistantException;
 import fr.greta92.projetstage.repository.CandidatRepo;
 import fr.greta92.projetstage.repository.UtilisateurRepo;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class GestionUtilisateurImpl implements GestionUtilisateur {
@@ -20,7 +22,25 @@ public class GestionUtilisateurImpl implements GestionUtilisateur {
     @Autowired
     private CandidatRepo candidatRepo;
     @Autowired
-    EmailService emailService;
+    private EmailService emailService;
+    @Autowired
+    private JwtService jwtService;
+
+    @Override
+    public AuthenticationResponse login(LoginData loginData) throws UtilisateurNonExistantException, BadPasswordException {
+        Utilisateur utilisateur = null;
+        try {
+            utilisateur = getUtilisateur(loginData.getEmail());
+        } catch (NoSuchElementException e) {
+            throw new UtilisateurNonExistantException();
+        }
+
+        if (!BCrypt.checkpw(loginData.getPassword(), utilisateur.getPassword())) {
+            throw new BadPasswordException();
+        }
+
+        return new AuthenticationResponse(jwtService.generateToken(utilisateur));
+    }
 
     @Override
     public Boolean existByEmail(String email) {
@@ -33,21 +53,37 @@ public class GestionUtilisateurImpl implements GestionUtilisateur {
     }
 
     @Override
-    public void ajouterUtilisateur(Utilisateur utilisateur) throws UtilisateurDejaExistant {
+    public void ajouterUtilisateur(Utilisateur utilisateur) throws UtilisateurDejaExistantException {
         if(existByEmail(utilisateur.getEmail()))
         {
-            throw new UtilisateurDejaExistant();
+            throw new UtilisateurDejaExistantException();
         }
+        utilisateur.setPassword(BCrypt.hashpw(utilisateur.getPassword(), BCrypt.gensalt(12)));
         utilisateurRepo.save(utilisateur);
     }
 
     @Override
-    public void modifierUtilisateur(Utilisateur utilisateur) throws UtilisateurNonExistant {
-        if(existByEmail(utilisateur.getEmail())) {
+    public void modifierUtilisateur(Utilisateur utilisateur) throws UtilisateurNonExistantException {
+        if(!existByEmail(utilisateur.getEmail()) && utilisateurRepo.existsById(utilisateur.getId())) {
+
+            Utilisateur prevUtilisateur = getUtilisateur(utilisateur.getEmail());
+            utilisateur.setPassword(prevUtilisateur.getPassword());
+            utilisateurRepo.save(utilisateur);
+
+        }
+        else {
+            throw new UtilisateurNonExistantException();
+        }
+    }
+
+    @Override
+    public void modifierUtilisateurAvecMdp(Utilisateur utilisateur) throws UtilisateurNonExistantException {
+        if(!existByEmail(utilisateur.getEmail()) && utilisateurRepo.existsById(utilisateur.getId())) {
+            utilisateur.setPassword(BCrypt.hashpw(utilisateur.getPassword(), BCrypt.gensalt(12)));
             utilisateurRepo.save(utilisateur);
         }
         else {
-            throw new UtilisateurNonExistant();
+            throw new UtilisateurNonExistantException();
         }
     }
 
@@ -67,21 +103,35 @@ public class GestionUtilisateurImpl implements GestionUtilisateur {
     }
 
     @Override
-    public void ajouterCandidat(Candidat candidat) throws UtilisateurDejaExistant {
+    public void ajouterCandidat(Candidat candidat) throws UtilisateurDejaExistantException {
         if(existByEmail(candidat.getEmail()))
         {
-            throw new UtilisateurDejaExistant();
+            throw new UtilisateurDejaExistantException();
         }
+        candidat.setPassword(BCrypt.hashpw(candidat.getPassword(), BCrypt.gensalt(12)));
         candidatRepo.save(candidat);
     }
 
     @Override
-    public void modifierCandidat(Candidat candidat) throws UtilisateurNonExistant {
-        if(existByEmail(candidat.getEmail())) {
+    public void modifierCandidat(Candidat candidat) throws UtilisateurNonExistantException {
+        if(!existByEmail(candidat.getEmail()) && candidatRepo.existsById(candidat.getId())) {
+            Candidat prevCandidat = getCandidat(candidat.getEmail());
+            candidat.setPassword(prevCandidat.getPassword());
             candidatRepo.save(candidat);
         }
         else {
-            throw new UtilisateurNonExistant();
+            throw new UtilisateurNonExistantException();
+        }
+    }
+
+    @Override
+    public void modifierCandidatAvecMdp(Candidat candidat) throws UtilisateurNonExistantException {
+        if(!existByEmail(candidat.getEmail()) && candidatRepo.existsById(candidat.getId())) {
+            candidat.setPassword(BCrypt.hashpw(candidat.getPassword(), BCrypt.gensalt(12)));
+            candidatRepo.save(candidat);
+        }
+        else {
+            throw new UtilisateurNonExistantException();
         }
     }
 

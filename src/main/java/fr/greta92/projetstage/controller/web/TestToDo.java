@@ -26,8 +26,10 @@ public class TestToDo {
             return "testTodo";
 
         } catch (NoSuchElementException e) {
+            e.printStackTrace();
             return "redirect:/Connexion";
         } catch (Exception e) {
+            e.printStackTrace();
             return "redirect:/Connexion";
         }
 
