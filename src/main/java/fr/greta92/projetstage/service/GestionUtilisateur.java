@@ -4,14 +4,14 @@ import fr.greta92.projetstage.entity.AuthenticationResponse;
 import fr.greta92.projetstage.entity.Candidat;
 import fr.greta92.projetstage.entity.LoginData;
 import fr.greta92.projetstage.entity.Utilisateur;
-import fr.greta92.projetstage.exception.BadPasswordException;
+import fr.greta92.projetstage.exception.BadEmailPasswordException;
 import fr.greta92.projetstage.exception.UtilisateurDejaExistantException;
 import fr.greta92.projetstage.exception.UtilisateurNonExistantException;
 
 import java.util.List;
 
 public interface GestionUtilisateur {
-    public AuthenticationResponse login(LoginData loginData) throws UtilisateurNonExistantException, BadPasswordException;
+    public AuthenticationResponse login(LoginData loginData) throws UtilisateurNonExistantException, BadEmailPasswordException;
     public Boolean existByEmail(String email);
     public Utilisateur getUtilisateur(String email);
     public void ajouterUtilisateur(Utilisateur utilisateur) throws UtilisateurDejaExistantException;

@@ -23,16 +23,15 @@ public class UtilisateurRessource {
     @Autowired
     private GestionUtilisateur gestionUtilisateur;
 
-    /*Seul l'utilisateur à le droit de obtenir ses information pas les autres utilisateurs TODO*/
+    /* Seul l'utilisateur à le droit de obtenir ses information pas les autres utilisateurs */
     @GetMapping("/api/candidat/{mail}")
     public Candidat getCandidat(@PathVariable("mail") String mail, Principal principal)
     {
         Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         SimpleGrantedAuthority authority = authorities.stream().findFirst().get(); /* Design pattern facade non respecté */
 
-        if("USER".equals(authority.getAuthority()) && isDifferentUser(principal, mail))
+        if("ROLE_USER".equals(authority.getAuthority()) && isDifferentUser(principal, mail))
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-
         try {
             return gestionUtilisateur.getCandidat(mail);
         }
@@ -96,7 +95,7 @@ public class UtilisateurRessource {
         Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>)SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         SimpleGrantedAuthority authority = authorities.stream().findFirst().get();
 
-        if("USER".equals(authority.getAuthority()) && isDifferentUser(principal, mail))
+        if(isDifferentUser(principal, mail))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         try {
             return gestionUtilisateur.getUtilisateur(mail);

@@ -1,14 +1,13 @@
 package fr.greta92.projetstage.service;
 
 import fr.greta92.projetstage.entity.*;
-import fr.greta92.projetstage.exception.BadPasswordException;
+import fr.greta92.projetstage.exception.BadEmailPasswordException;
 import fr.greta92.projetstage.exception.UtilisateurDejaExistantException;
 import fr.greta92.projetstage.exception.UtilisateurNonExistantException;
 import fr.greta92.projetstage.repository.CandidatRepo;
 import fr.greta92.projetstage.repository.UtilisateurRepo;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +26,7 @@ public class GestionUtilisateurImpl implements GestionUtilisateur {
     private JwtService jwtService;
 
     @Override
-    public AuthenticationResponse login(LoginData loginData) throws UtilisateurNonExistantException, BadPasswordException {
+    public AuthenticationResponse login(LoginData loginData) throws UtilisateurNonExistantException, BadEmailPasswordException {
         Utilisateur utilisateur = null;
         try {
             utilisateur = getUtilisateur(loginData.getEmail());
@@ -36,7 +35,7 @@ public class GestionUtilisateurImpl implements GestionUtilisateur {
         }
 
         if (!BCrypt.checkpw(loginData.getPassword(), utilisateur.getPassword())) {
-            throw new BadPasswordException();
+            throw new BadEmailPasswordException();
         }
 
         return new AuthenticationResponse(jwtService.generateToken(utilisateur));

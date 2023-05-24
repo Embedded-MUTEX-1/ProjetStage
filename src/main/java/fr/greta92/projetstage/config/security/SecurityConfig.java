@@ -69,7 +69,8 @@ public class SecurityConfig {
                     .logout()
                     .logoutUrl("/api/Deconnexion")
                 .and()
-                    .csrf().disable();
+                    .csrf().disable()
+                    .headers(headers -> headers.frameOptions().sameOrigin());
 
         return http.build();
     }
@@ -92,7 +93,7 @@ public class SecurityConfig {
                     .logoutRequestMatcher( new AntPathRequestMatcher("/Deconnexion"))
                     .logoutSuccessUrl("/").permitAll()
                 .and()
-                    .headers(headers -> headers.frameOptions().disable())
+                    .headers(headers -> headers.frameOptions().sameOrigin())//Protection Contre ClickJacking (X-Frame header)
                     .csrf(csrf -> csrf
                         .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")));
 
