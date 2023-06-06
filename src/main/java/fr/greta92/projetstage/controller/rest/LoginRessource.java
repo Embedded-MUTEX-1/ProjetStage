@@ -18,6 +18,8 @@ import java.security.Principal;
 public class LoginRessource {
     @Autowired
     private GestionUtilisateur gestionUtilisateur;
+
+    /*                           TODO Mettre en place la validation                        */
     @PostMapping("/api/Connexion")
     public AuthenticationResponse login(@RequestBody LoginData loginData, Principal principal)
     {

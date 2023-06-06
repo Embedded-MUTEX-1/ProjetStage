@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface TestRepo extends JpaRepository<Test, Long> {
     public Optional<Test> findByNom(String nom);
+    public boolean existsByNom(String non);
 }

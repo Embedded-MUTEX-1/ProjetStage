@@ -2,12 +2,15 @@ package fr.greta92.projetstage.serviceTest;
 
 import fr.greta92.projetstage.entity.Role;
 import fr.greta92.projetstage.entity.Utilisateur;
-import fr.greta92.projetstage.exception.UtilisateurNonExistantException;
+import fr.greta92.projetstage.exception.TestNonExistantException;
+import fr.greta92.projetstage.repository.TestRepo;
 import fr.greta92.projetstage.repository.UtilisateurRepo;
+import fr.greta92.projetstage.service.GestionTest;
+import fr.greta92.projetstage.service.GestionTestImpl;
 import fr.greta92.projetstage.service.GestionUtilisateur;
 import fr.greta92.projetstage.service.GestionUtilisateurImpl;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,16 +25,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
 
 @RunWith(MockitoJUnitRunner.class)
 @PowerMockIgnore("javax.management.*")
 @SpringBootTest
-public class GestionUtilisateurTest {
+public class GestionTestTest {
     @Mock
-    UtilisateurRepo utilisateurRepo;
+    TestRepo testRepo;
     @InjectMocks
-    GestionUtilisateur gestionUtilisateur = new GestionUtilisateurImpl();
+    GestionTest gestionTest = new GestionTestImpl();
 
     @BeforeEach
     void setUp() {
@@ -39,26 +41,13 @@ public class GestionUtilisateurTest {
     }
 
     @Test
-    public void returnUtilisateurTest()
-    {
+    public void returnTestTest() throws TestNonExistantException {
 //        Mockito.when(utilisateurRepo.existsByEmail("toto@gmail.com")).thenReturn(true);
-        Mockito.when(utilisateurRepo.findUtilisateurByEmail("toto@gmail.com")).thenReturn(Optional.of(new Utilisateur(Long.valueOf(1), "toto@gmail.com", "12345678", Role.ROLE_USER)));
+        Mockito.when(testRepo.findByNom("test_aptitude")).thenReturn(Optional.of(new fr.greta92.projetstage.entity.Test(Long.valueOf(1), "test_aptitude", null)));
 
-        Utilisateur utilisateur = gestionUtilisateur.getUtilisateur("toto@gmail.com");
+        fr.greta92.projetstage.entity.Test test = gestionTest.getTest("test_aptitude");
 
-        assertThat(utilisateur).isNotNull();
-        assertThat(utilisateur.getId()).isEqualTo(1);
-    }
-    @Test
-    public void returnExceptionWhenSaveTest()
-    {
-        Mockito.when(utilisateurRepo.existsByEmail("toto@gmail.com")).thenReturn(true);
-
-        try {
-            gestionUtilisateur.modifierUtilisateur(new Utilisateur(Long.valueOf(1), "toto@gmail.com", "12345678", Role.ROLE_USER));
-            fail("modifierUtilisateur didn't throws exception");
-        } catch (UtilisateurNonExistantException e) {
-            // Success
-        }
+        assertThat(test).isNotNull();
+        assertThat(test.getId()).isEqualTo(1);
     }
 }

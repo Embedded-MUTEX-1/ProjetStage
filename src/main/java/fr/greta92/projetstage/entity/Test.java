@@ -1,9 +1,6 @@
 package fr.greta92.projetstage.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +16,10 @@ import java.util.List;
 public class Test {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "id_test")
     private List<Question> questions;
 }

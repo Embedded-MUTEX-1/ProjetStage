@@ -53,6 +53,7 @@ public class UtilisateurRessource {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    /*                           TODO Mettre en place la validation                        */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/api/candidat")
     public void setCandidat(@RequestBody Candidat candidat)
@@ -68,6 +69,7 @@ public class UtilisateurRessource {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    /*                           TODO Mettre en place la validation                        */
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/api/candidat")
     public void updateCandidat(@RequestBody Candidat candidat)
@@ -107,6 +109,7 @@ public class UtilisateurRessource {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    /*                           TODO Mettre en place la validation                        */
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/api/utilisateur")
     public void setUtilisateur(@RequestBody Utilisateur utilisateur)
@@ -122,6 +125,7 @@ public class UtilisateurRessource {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    /*                           TODO Mettre en place la validation                        */
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/api/utilisateur")
     public void updateUtilisateur(@RequestBody Utilisateur utilisateur)
