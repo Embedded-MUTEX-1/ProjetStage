@@ -19,12 +19,12 @@ pipeline {
             }
             stage("Docker build") {
                 steps{
-                    sh "docker build -t 172.17.0.3:5000/app ."
+                    sh "docker build -t 172.17.0.2:5000/app ."
                 }
             }
             stage("Docker push") {
                 steps{
-                    sh "docker push 172.17.0.3:5000/app"
+                    sh "docker push 172.17.0.2:5000/app"
                 }
             }
         }
