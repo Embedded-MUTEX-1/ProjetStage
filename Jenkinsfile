@@ -27,5 +27,14 @@ pipeline {
                     sh "docker push 172.17.0.2:5000/app"
                 }
             }
+            stage("Deploy on test server") {
+                steps{
+                    sshagent(credentials : ['jenkins_to_test']) {
+                        sh '''
+                            /home/lenny/script.sh
+                        '''
+                    }
+                }
+            }
         }
 }
