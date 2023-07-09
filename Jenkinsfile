@@ -30,9 +30,7 @@ pipeline {
             stage("Deploy on test server") {
                 steps{
                     sshagent(credentials : ['jenkins_to_test']) {
-                        sh '''
-                            /home/lenny/script.sh
-                        '''
+                        sh "/home/lenny/script.sh"
                     }
                 }
             }
