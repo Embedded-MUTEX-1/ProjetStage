@@ -15,12 +15,13 @@ import lombok.Setter;
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
 @DiscriminatorColumn(name="reponse_type")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "@ttype")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "ttype")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = ReponseQcm.class, name = "qcm"),
+        @JsonSubTypes.Type(value = ReponseCandidatQcm.class, name = "qcm"),
 })
 public abstract class ReponseCandidat {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
     private StatusReponse statusReponse;
@@ -28,6 +29,6 @@ public abstract class ReponseCandidat {
     @JoinColumn(name = "id_question")
     private Question question;
 
-    @JsonProperty("@ttype")
+    @JsonProperty("ttype")
     public abstract String getChildType();
 }

@@ -56,6 +56,14 @@ main .container {
     position: fixed;
     overflow-y: scroll;
 }
+.question-text {
+    background-color: #87B3F5;
+    border-radius: 50px;
+}
+.submit {
+    background-color: #87B3F5;
+    border-radius: 50px;
+}
 @media (max-width: 767px) { 
     
 }

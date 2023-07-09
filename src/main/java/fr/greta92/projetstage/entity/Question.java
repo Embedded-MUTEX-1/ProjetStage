@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
 @DiscriminatorColumn(name="question_type")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "@ttype")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "ttype")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = QuestionQcm.class, name = "qcm"),
 })
@@ -26,6 +26,6 @@ public abstract class Question {
     @OneToMany(mappedBy = "question",fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
     private List<Reponse> reponses;
 
-    @JsonProperty("@ttype")
+    @JsonProperty("ttype")
     public abstract String getChildType();
 }

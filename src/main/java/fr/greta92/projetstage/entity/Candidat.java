@@ -17,6 +17,6 @@ import java.util.List;
 @DiscriminatorValue("candidat")
 public class Candidat extends Utilisateur {
     @JsonIgnore
-    @OneToMany(mappedBy = "candidat")
+    @OneToMany(mappedBy = "candidat", fetch = FetchType.EAGER)
     private List<PassageTest> passageTests;
 }

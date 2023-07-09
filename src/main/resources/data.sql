@@ -1,8 +1,8 @@
-INSERT INTO utilisateur(email, password, role, user_type)
-VALUES ('tata@gmail.com', '$2a$12$I2Pnqij3JlT1.mmzfizQPuaVG5kfafT7HNM/OlPsBKJnnTBCMDKlK', 'ROLE_ADMIN', 'candidat');
+INSERT INTO utilisateur(email, nom, prenom, password, role, user_type)
+VALUES ('tata@gmail.com', 'tata', 'toto', '$2a$12$I2Pnqij3JlT1.mmzfizQPuaVG5kfafT7HNM/OlPsBKJnnTBCMDKlK', 'ROLE_ADMIN', 'candidat');
 
-INSERT INTO test(nom)
-VALUES ('test_aptitude');
+INSERT INTO test(nom, description)
+VALUES ('test_aptitude', 'Blablabla...');
 
 INSERT INTO question(question_type, nombre_points, id_test)
 VALUES ('qcm', 3, 1);
@@ -45,3 +45,6 @@ VALUES ('qcm', 2);
 
 INSERT INTO reponse_qcm(id, response)
 VALUES (5, '.doc');
+
+INSERT INTO passage_test(id, date_passage, debut, fin, duration, timeout, status, commentaire, id_candidat, id_test)
+VALUES (1, null, '2023-06-05 00:00:00', '2023-07-30 00:00:00', null, 'INTERVAL ''120'' SECOND', 'TODO', '', 1, 1)

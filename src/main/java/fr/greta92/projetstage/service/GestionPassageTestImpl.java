@@ -1,31 +1,47 @@
 package fr.greta92.projetstage.service;
 
-import fr.greta92.projetstage.entity.PassageTest;
-import fr.greta92.projetstage.entity.Status;
-import fr.greta92.projetstage.entity.TestData;
+import fr.greta92.projetstage.entity.*;
 import fr.greta92.projetstage.exception.PassageTestDejaExistantException;
 import fr.greta92.projetstage.exception.PassageTestNonExistantException;
 import fr.greta92.projetstage.exception.PassageTestTooEarlyException;
 import fr.greta92.projetstage.exception.PassageTestTooLateException;
 import fr.greta92.projetstage.repository.PassageTestRepo;
+import fr.greta92.projetstage.repository.QuestionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class GestionPassageTestImpl implements GestionPassageTest{
 
     @Autowired
     private PassageTestRepo passageTestRepo;
+    @Autowired
+    private QuestionRepo questionRepo;
     @Override
     public PassageTest getPassageTest(Long id) {
-        return passageTestRepo.getById(id);
+        return passageTestRepo.findById(id).orElseThrow();
     }
 
     @Override
     public List<PassageTest> getAllPassageTest(Status status) {
         return passageTestRepo.getPassageTestByStatus(status);
+    }
+
+    @Override
+    public List<PassageTest> getAllPassageTestFromCandidat(Candidat candidat) {
+        return passageTestRepo.findPassageTestByCandidat(candidat);
+    }
+
+    @Override
+    public List<PassageTest> getAllPassageTestFromCandidat(Candidat candidat, Status status) {
+        return passageTestRepo.findPassageTestByCandidatAndStatus(candidat, status);
     }
 
     @Override
@@ -58,7 +74,7 @@ public class GestionPassageTestImpl implements GestionPassageTest{
 
     @Override
     public void lancerPassageTest(Long testId) throws PassageTestTooEarlyException, PassageTestTooLateException {
-        PassageTest passageTest = passageTestRepo.getById(testId);
+        PassageTest passageTest = passageTestRepo.findById(testId).orElseThrow();
 
         LocalDateTime debut = passageTest.getDebut();
         LocalDateTime fin = passageTest.getFin();
@@ -81,8 +97,39 @@ public class GestionPassageTestImpl implements GestionPassageTest{
     }
 
     @Override
-    public void verifierPassageTest(TestData testData) {
+    @Transactional
+    public void verifierPassageTest(TestResponse testResponse) throws PassageTestTooLateException {
+        Map<Long, ReponseCandidat> reponseCandidatsIn = testResponse.getReponseCandidats();
+        List<ReponseCandidat> reponseCandidatsOut = new ArrayList<>();
+        PassageTest passageTest = passageTestRepo.findById(testResponse.getPassageTestId()).orElseThrow();
 
+
+        LocalDateTime fin = passageTest.getFin();
+        LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(passageTest.getDatePassage(), now);
+        Duration timeout = passageTest.getTimeout();
+
+        if(now.isAfter(fin) || duration.compareTo(timeout) >= 1)
+        {
+            passageTest.setStatus(Status.ANNULER);
+            passageTestRepo.save(passageTest);
+            throw new PassageTestTooLateException();
+        }
+
+        for (Long responseId: testResponse.getReponseCandidats().keySet()) {
+            Question question = questionRepo.getById(responseId);
+            ReponseCandidat reponseCandidat = reponseCandidatsIn.get(responseId);
+
+
+            reponseCandidat.setQuestion(question);
+            reponseCandidatsOut.add(reponseCandidat);
+        }
+
+        passageTest.setReponseCandidats(reponseCandidatsOut);
+        passageTest.setStatus(Status.DONE);
+        passageTest.setDuration(duration);
+
+        passageTestRepo.save(passageTest);
     }
 
     @Override
@@ -90,3 +137,4 @@ public class GestionPassageTestImpl implements GestionPassageTest{
 
     }
 }
+ //Traitement et verification...

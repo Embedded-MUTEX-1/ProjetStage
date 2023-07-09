@@ -32,7 +32,7 @@ public class TestRessourceTest {
     @Test
     void returnTestTest() throws Exception {
 
-        when(gestionTest.getTest("test_aptitude")).thenReturn(new fr.greta92.projetstage.entity.Test(Long.valueOf(1), "test_aptitude", null));
+        when(gestionTest.getTest("test_aptitude")).thenReturn(new fr.greta92.projetstage.entity.Test(Long.valueOf(1), "test_aptitude", "",null));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/test/{nom}", "test_aptitude")

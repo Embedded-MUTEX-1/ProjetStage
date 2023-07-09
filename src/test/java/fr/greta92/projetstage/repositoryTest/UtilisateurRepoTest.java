@@ -24,7 +24,7 @@ public class UtilisateurRepoTest {
     @Test
     void saveUserTest()
     {
-        Utilisateur utilisateur = new Utilisateur(null, "toto@gmail.com", "12345678", Role.ROLE_USER);
+        Utilisateur utilisateur = new Utilisateur(null, "toto@gmail.com", "12345678", "", "", Role.ROLE_USER);
 
         utilisateurRepo.save(utilisateur);
 

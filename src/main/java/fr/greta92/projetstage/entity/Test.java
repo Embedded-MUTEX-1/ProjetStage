@@ -19,6 +19,7 @@ public class Test {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nom;
+    private String description;
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "id_test")
     private List<Question> questions;

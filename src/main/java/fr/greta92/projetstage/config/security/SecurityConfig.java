@@ -51,35 +51,35 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Order(1)
+    @Order(2)
     public SecurityFilterChain stateLessSecurityFilterChain(HttpSecurity http) throws Exception
     {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/Connexion").permitAll()
                         .requestMatchers("/api/**").authenticated()
-                        .anyRequest().permitAll()
-
                 )
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                     .authenticationProvider(authenticationProvider())
-                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                    .logout()
-                    .logoutUrl("/api/Deconnexion")
-                .and()
-                    .csrf().disable()
+                    .addFilterAfter(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .csrf(csrf -> csrf
+                                .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/**"))
+                                .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/api/**"))
+                )
                     .headers(headers -> headers.frameOptions().sameOrigin());
 
         return http.build();
     }
+
     @Bean
-    @Order(2)
+    @Order(1)
     public SecurityFilterChain stateFullSecurityFilterChain(HttpSecurity http) throws Exception
     {
         http
                 .authorizeHttpRequests()
+                    .requestMatchers("/api/**").permitAll()
                     .requestMatchers("/Connexion").permitAll()
                     .requestMatchers("/h2-console/**").permitAll()
                     .requestMatchers("/css/**", "/img/**", "/js/**").permitAll()
@@ -95,7 +95,8 @@ public class SecurityConfig {
                 .and()
                     .headers(headers -> headers.frameOptions().sameOrigin())//Protection Contre ClickJacking (X-Frame header)
                     .csrf(csrf -> csrf
-                        .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")));
+                            .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/api/**"))
+                            .ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/h2-console/**")));
 
         http.authenticationProvider(authenticationProvider());
         return http.build();

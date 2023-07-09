@@ -41,7 +41,7 @@ public class UtilisateurRessourceTest {
     @Test
     void returnUtilisateurTest() throws Exception {
 
-        when(gestionUtilisateur.getUtilisateur("toto@gmail.com")).thenReturn(new Utilisateur(Long.valueOf(1), "toto@gmail.com", "12345678", Role.ROLE_ADMIN));
+        when(gestionUtilisateur.getUtilisateur("toto@gmail.com")).thenReturn(new Utilisateur(Long.valueOf(1), "toto@gmail.com", "", "", "12345678", Role.ROLE_ADMIN));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/utilisateur/{mail}", "toto@gmail.com")

@@ -12,5 +12,6 @@ import java.util.Optional;
 @Repository
 public interface PassageTestRepo extends JpaRepository<PassageTest, Long> {
     public List<PassageTest> findPassageTestByCandidat(Candidat candidat);
+    public List<PassageTest> findPassageTestByCandidatAndStatus(Candidat candidat, Status status);
     public List<PassageTest> getPassageTestByStatus(Status status);
 }

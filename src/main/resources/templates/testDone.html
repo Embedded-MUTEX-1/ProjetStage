@@ -26,7 +26,7 @@
                         <a class="nav-link text-black text-center" href="#">Tests terminés</a>
                       </li>
                       <li class="nav-item compte mx-4 my-2 my-md-0">
-                        <a class="nav-link text-black text-center" href="#">Martin</a> <!-- A remplir automatiquement -->
+                        <a class="nav-link text-black text-center" th:text="${candidat.getPrenom()}" href="#"></a> <!-- A remplir automatiquement -->
                       </li>
                     </ul>
                   </div>
@@ -41,13 +41,13 @@
                     <p class="fin">Note</p>
                     <p class="desc">Commentaire</p>
                 </div>
-                <div class="list"> <!-- A remplir automatiquement -->
+                <div th:each="passageTest : ${passageTests}" class="list"> <!-- A remplir automatiquement -->
                     <div class="template item container-fluid d-flex">
                         <div class="row w-100">
-                            <p class="t-nom col-6 col-md-3"><span>Nom : </span><a class="">Test d'aptitude</a></p>
-                            <p class="t-debut col-6 col-md-3"><span>Date : </span>10/10/2023</p>
-                            <p class="t-fin col-6 col-md-3"><span>Note : </span>16/20</p>
-                            <p class="t-desc col-6 col-md-3" data-toggle="tooltip" data-placement="bottom" title="Ce test permet..."><span>Commentaire : </span>Réussi</p>
+                            <p class="t-nom col-6 col-md-3"><span>Nom : </span><a href="#" th:text="${passageTest.getTest().getNom()}" class=""></a></p>
+                            <p class="t-debut col-6 col-md-3"><span>Date : </span><span class="disp-text" th:text="${#temporals.format(passageTest.getDatePassage(), 'dd-MM-yyyy HH:mm')}"></span></p>
+                            <p class="t-fin col-6 col-md-3"><span>Note : </span>Non disponible</p>
+                            <p class="t-desc col-6 col-md-3" data-toggle="tooltip" data-placement="bottom" th:title="${passageTest.getCommentaire()}"><span>Commentaire : </span><span class="disp-text" th:text="${#strings.abbreviate(passageTest.getCommentaire(), 10)}"></span></p>
                         </div>
                     </div>
                 </div>

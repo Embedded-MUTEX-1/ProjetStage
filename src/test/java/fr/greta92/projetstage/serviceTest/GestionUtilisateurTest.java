@@ -42,7 +42,7 @@ public class GestionUtilisateurTest {
     public void returnUtilisateurTest()
     {
 //        Mockito.when(utilisateurRepo.existsByEmail("toto@gmail.com")).thenReturn(true);
-        Mockito.when(utilisateurRepo.findUtilisateurByEmail("toto@gmail.com")).thenReturn(Optional.of(new Utilisateur(Long.valueOf(1), "toto@gmail.com", "12345678", Role.ROLE_USER)));
+        Mockito.when(utilisateurRepo.findUtilisateurByEmail("toto@gmail.com")).thenReturn(Optional.of(new Utilisateur(Long.valueOf(1), "toto@gmail.com", "Toto", "Tata", "12345678", Role.ROLE_USER)));
 
         Utilisateur utilisateur = gestionUtilisateur.getUtilisateur("toto@gmail.com");
 
@@ -55,7 +55,7 @@ public class GestionUtilisateurTest {
         Mockito.when(utilisateurRepo.existsByEmail("toto@gmail.com")).thenReturn(true);
 
         try {
-            gestionUtilisateur.modifierUtilisateur(new Utilisateur(Long.valueOf(1), "toto@gmail.com", "12345678", Role.ROLE_USER));
+            gestionUtilisateur.modifierUtilisateur(new Utilisateur(Long.valueOf(1), "toto@gmail.com", "", "", "12345678", Role.ROLE_USER));
             fail("modifierUtilisateur didn't throws exception");
         } catch (UtilisateurNonExistantException e) {
             // Success

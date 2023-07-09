@@ -136,6 +136,9 @@ main .container {
 .item span {
     display: none;
 }
+.item .disp-text {
+    display: contents;
+}
 @media (max-width: 767px) { 
     .list {
         margin-top: 10px;

@@ -42,8 +42,13 @@ public class GestionTestTest {
 
     @Test
     public void returnTestTest() throws TestNonExistantException {
-//        Mockito.when(utilisateurRepo.existsByEmail("toto@gmail.com")).thenReturn(true);
-        Mockito.when(testRepo.findByNom("test_aptitude")).thenReturn(Optional.of(new fr.greta92.projetstage.entity.Test(Long.valueOf(1), "test_aptitude", null)));
+        Mockito
+                .when(testRepo.findByNom("test_aptitude"))
+                .thenReturn(Optional.of(new fr.greta92.projetstage.entity.Test(
+                        Long.valueOf(1),
+                        "test_aptitude",
+                        "",
+                        null)));
 
         fr.greta92.projetstage.entity.Test test = gestionTest.getTest("test_aptitude");
 

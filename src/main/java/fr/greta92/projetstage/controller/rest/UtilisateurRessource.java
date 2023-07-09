@@ -44,7 +44,7 @@ public class UtilisateurRessource {
     }
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/api/candidats")
-    public List<Candidat> getCandidat()
+    public List<Candidat> getCandidats()
     {
         try {
             return gestionUtilisateur.getAllCandidat();
