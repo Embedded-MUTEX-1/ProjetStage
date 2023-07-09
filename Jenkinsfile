@@ -3,11 +3,6 @@ pipeline {
     environment {
         PATH = "/usr/lib/jvm/jdk-17/bin:$PATH"
         JAVA_HOME="/usr/lib/jvm/jdk-17/"
-
-        registry = "lennyisaac14/repository_test"
-        registryCredential = 'jenkinsdockerhub'
-        dockerImage = ''
-
     }
         stages {
             stage('recuperation du projet'){
